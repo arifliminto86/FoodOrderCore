@@ -1,0 +1,13 @@
+﻿@using FoodOrderSignalrCore.Models
+@using FoodOrderSignalrCore.Helper
+@model FoodOrderSignalrCore.Models.FoodOrder
+
+<div class="card" style="width: 18rem;">
+    <div class="card-header">@Model.OrderId : @Model.Food.Name</div>
+    <div class="card-body text-center">
+        <p class="card-text">
+            Status: @Html.DisplayName(EnumerationHelper.GetEnumDescription((FoodStatus)@Model.Status))
+            <button class="btn btn-danger">Finish</button>
+        </p>
+    </div>
+</div>

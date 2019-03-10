@@ -1,0 +1,103 @@
+﻿@using FoodOrderSignalrCore.Models
+@model IEnumerable<FoodOrderSignalrCore.Models.FoodOrder>
+
+@{
+    ViewData["Title"] = "Kitchen";
+    Layout = "~/Views/Shared/_Layout.cshtml";   
+}
+
+<h1>Kitchen Area</h1>
+<div class="row">
+    <div class="col-md-8">
+        <div class="row">
+            <div class="col-md-3">
+                <div id="waitingList" class="container">Waiting List</div>
+            </div>
+
+            <div class="col-md-3">
+                <div id="inprogress" class="container">In Progress</div>
+            </div>
+
+            <div class="col-md-3">
+                <div id="finishCooking" class="container">Finish Cooking</div>
+            </div>
+
+            <div class="col-md-3">
+                <div id="delivered" class="container">Delivered</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-header">Communications</div>
+            <div id="MessageList" class="card-body"></div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+
+    /**
+     * this function will append nextStatus with next foodOrder
+     * and it will discard the current list in foodOrderDivId
+     */
+    function updateStatus(foodOrderDivId, prevStatus) {
+
+    }
+
+    function reloadOrder() {
+
+    }
+    /**
+     * Setup the connection
+     */
+    var connection = new signalR.HubConnectionBuilder()
+        .withUrl("/foodhub")
+        .configureLogging(signalR.LogLevel.Trace)
+        .build();
+
+    $(document).ready(function () {
+        connection.start().then(() => {
+            connection.invoke("JoinRoom", "Kitchen 1", "Kitchen").catch(err => console.error(err.toString()));
+        });
+    });
+
+    connection.on("ReceiveMessage", (user, message) => {
+        var li = document.createElement("li");
+        li.textContent = user + " says " + message;
+        document.getElementById("MessageList").appendChild(li);
+    });
+
+    //action need to be taken if the kitchen received an order food
+    connection.on("ReceiveFoodOrder",
+        (order) => {
+            var foodOrders = order.foodOrders;
+            foodOrders.forEach(function (foodOrder) {
+
+                var food = new Food();
+                food.setFood(foodOrder.food.name, foodOrder.food.category, foodOrder.food.price);
+                
+                var foodOrderObj = new FoodOrder();
+                foodOrderObj.setFoodOrder(foodOrder.orderId, foodOrder.foodOrderId, food, foodOrder.statusStr);
+
+                console.log(foodOrderObj);
+                var card = foodOrderObj.createCard("foodOrder_" + foodOrder.foodOrderId);
+
+                if (foodOrder.statusStr === "Waiting List") {
+                    $("#waitingList").append(card);
+                }
+                else if (foodOrder.statusStr === "In Progress") {
+                    $("#inprogress").append(card);
+                }
+                else if (foodOrder.statusStr === "Finish Cooking") {
+                    $("#finishCooking").append(card);
+                }
+                else if (foodOrder.statusStr === "Delivered") {
+                    $("#delivered").append(card);
+                }
+            });
+        });
+
+
+</script>
+
