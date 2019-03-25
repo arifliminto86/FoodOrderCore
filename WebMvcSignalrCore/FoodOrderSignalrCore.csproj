@@ -9,6 +9,7 @@
   <ItemGroup>
     <Content Remove="wwwroot\js\Food.ts" />
     <Content Remove="wwwroot\js\FoodOrder.ts" />
+    <Content Remove="wwwroot\js\Kitchen.ts" />
     <Content Remove="wwwroot\Order.ts" />
   </ItemGroup>
 
@@ -24,6 +25,7 @@
   <ItemGroup>
     <TypeScriptCompile Include="wwwroot\js\Food.ts" />
     <TypeScriptCompile Include="wwwroot\js\FoodOrder.ts" />
+    <TypeScriptCompile Include="wwwroot\js\Kitchen.ts" />
     <TypeScriptCompile Include="wwwroot\js\Order.ts" />
   </ItemGroup>
 
