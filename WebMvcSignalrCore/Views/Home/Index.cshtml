@@ -1,31 +1,33 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
 }
+<div style="margin-left: 5px">
+    <div class="row">
+        <div class="col-6">
+            <textarea id="messageInput" class="form-control" placeholder="Broad cast message to all staffs" ></textarea>
+            <br/>
+            <input id="sendButton" type="button" class="btn btn-primary" value="Send Message" />
+        </div>
+    </div>
 
-<div class="row">
-    <div class="col-6">
-        <textarea id="messageInput" class="form-control" placeholder="Broad cast message to all staffs" ></textarea>
-        <br/>
-        <input id="sendButton" type="button" class="btn btn-primary" value="Send Message" />
+    <div class="row">
+        <div class="col-12" >
+            <hr />
+        </div>
+    </div>
+    
+    <!-- chat section-->
+    <div class="row">
+        <div class="col-6">
+            <ul id="messagesList"></ul>
+        </div>
+    </div>
+
+    <div class="row">
+        
+        <input id="orderFoodButton" type="button" class="btn btn-dark" value="Order Food"/>
     </div>
 </div>
-
-<div class="row">
-    <div class="col-12">
-        <hr />
-    </div>
-</div>
-
-<div class="row">
-    <div class="col-6">
-        <ul id="messagesList"></ul>
-    </div>
-</div>
-
-<div class="row">
-    <input id="orderFoodButton" type="button" class="btn btn-dark" value="Order Food" />
-</div>
-
 <script type="text/javascript">
 
     /**
@@ -60,7 +62,7 @@
     document.getElementById("sendButton").addEventListener("click", event => {
         var message = document.getElementById("messageInput").value;
 
-        connection.invoke("SendMessage", message).catch(err => console.error(err.toString()));
+        connection.invoke("SendMessage", "waitress(web)", message).catch(err => console.error(err.toString()));
         event.preventDefault();
     });
 
