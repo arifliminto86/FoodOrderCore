@@ -34,15 +34,34 @@ namespace WebMvcSignalrCore.Hubs
             await Clients.All.SendAsync("ReceiveMessage", user, $"{user} leaved the room {roomName}");
         }
 
-        public async Task SendMessage(string message)
+        public async Task SendMessage( string user, string message)
         {
-            await Clients.All.SendAsync("ReceiveMessage", "Waitress", message);
+            await Clients.All.SendAsync("ReceiveMessage", user, message);
         }
 
         public async Task SendServerMessage(string user, string message)
         {
             Food food = new Food{Category = "Animal", Name = "cat food"};
             await Clients.All.SendAsync("ReceiveServerMessage", food);
+        }
+
+        /// <summary>
+        /// Update food status for kitchen and waitress
+        /// if food status is ready to deliver then we update waitress ui to show food that ready to deliver
+        /// </summary>
+        /// <param name="foodOrder"></param>
+        /// <param name="status"></param>
+        /// <returns></returns>
+        public async Task UpdateFoodStatus(FoodOrder foodOrder, FoodStatus status)
+        {
+            foodOrder.Status = status;
+            await Clients.Groups(KitchenGroup).SendAsync("refreshKitchen", foodOrder);
+
+            //Notify the waitress to pick up the order
+            if (status == FoodStatus.Delivered)
+            {
+                await Clients.Groups(WaitressGroup).SendAsync("deliverFood", foodOrder);
+            }
         }
     }
 }
