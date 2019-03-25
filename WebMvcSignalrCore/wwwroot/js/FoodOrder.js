@@ -21,7 +21,7 @@ var FoodOrder = /** @class */ (function () {
             "Status:" + this.status +
             "</p>" +
             "<input id='" + buttonId + "' type='button' class='btn btn-dark' value='Next' " +
-            "onClick='updateStatus(" + divId + ", " + this.status + ")' />" +
+            "onClick= updateStatus('" + this.foodOrderId + "') />" +
             "</div>" +
             "</div>" +
             "<div class='row'></div>";

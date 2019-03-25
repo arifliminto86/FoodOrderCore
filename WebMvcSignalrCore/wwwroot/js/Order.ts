@@ -3,7 +3,7 @@
     private orderDate: Date;
     private totalBill : number;
     private isFinished: boolean;
-    private foodOrders: FoodOrder[]; 
+    private _foodOrders: FoodOrder[]; 
 
     /**
      * Create order object
@@ -13,6 +13,6 @@
         this.orderId = Math.random(); //at the moment random
         this.orderDate = new Date(); //current date
         this.isFinished = false;
-        this.foodOrders = foodOrders;
+        this._foodOrders = foodOrders;
     }
 }

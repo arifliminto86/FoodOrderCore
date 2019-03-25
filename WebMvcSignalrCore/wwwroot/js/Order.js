@@ -9,7 +9,7 @@ var Order = /** @class */ (function () {
         this.orderId = Math.random(); //at the moment random
         this.orderDate = new Date(); //current date
         this.isFinished = false;
-        this.foodOrders = foodOrders;
+        this._foodOrders = foodOrders;
     };
     return Order;
 }());
